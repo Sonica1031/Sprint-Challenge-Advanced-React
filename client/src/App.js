@@ -1,23 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 import './App.css';
+import useDarkMode from './hooks/useDarkMode'
 
 function App() {
+  const [value, setValue] = useState([])
+  useEffect(() => {
+  Axios
+  .get("http://localhost:5000/api/players")
+  .then(res =>{
+    setValue(res.data)
+  })
+  .catch(err =>{
+    console.log(err)
+  })
+  },[])
+
+  const [darkModeValue, setDarkModeValue] = useDarkMode(false)
+  const buttonClick = () =>{
+    setDarkModeValue(!darkModeValue)
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button onClick={buttonClick}>Dark Mode</button>
+        {value.map(person => {
+          return(
+            <div>
+             <p>{person.name}</p>
+             <p>{person.country}</p>
+            </div>
+          )
+        })}
       </header>
     </div>
   );
