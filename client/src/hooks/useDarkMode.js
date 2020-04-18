@@ -7,6 +7,7 @@ const useDarkMode = (initialValue) =>{
     useEffect(()=>{
         bodyElement.classList.toggle('darkmode')
     },[value])
+    console.log(bodyElement.classList)
     return [value, setValue]
 }
 

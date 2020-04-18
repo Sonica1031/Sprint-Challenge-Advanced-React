@@ -3,24 +3,23 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { render, fireEvent } from '@testing-library/react';
 
-it('renders without crashing', () => {
+test('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 
-it('Has Text From API call',() => {
+test('Has text from API call',() => {
   const {queryByText} = render(<App />);
  
   expect(queryByText(/Alex Morgan/i));
 })
 
 
-it('Goes to darkmode when clicked', ()=>{
-  const {getByText} = render(<App />);
-  const button = getByText(/Dark Mode/i)
-  const buttonClick = jest.fn();
-  button.addEventListener('click', buttonClick)
+test('Darkmode toggles when clicked', ()=>{
+  const {queryByText} = render(<App />);
+  const body = document.querySelector('body');
+  const button = queryByText(/Dark Mode/i)
   fireEvent.click(button);
-  expect(buttonClick).toHaveBeenCalled()
+  expect(body.classList.value).toEqual('');
 })
